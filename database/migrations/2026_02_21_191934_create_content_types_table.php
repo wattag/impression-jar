@@ -6,25 +6,20 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
-        Schema::create('content_types', function (Blueprint $table) {
+        Schema::create('content_types', static function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('slug')->unique();
-            $table->string('icon')->nullable();
-            $table->integer('sort_order')->default(0);
-            $table->boolean('is_active')->default(true);
+            $table->string('slug')
+                ->unique();
+            $table->string('name')
+                ->unique();
+            $table->boolean('is_active')
+                ->default(true);
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('content_types');

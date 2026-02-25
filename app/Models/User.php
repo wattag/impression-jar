@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
+use App\Enums\UserRoleEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -12,7 +13,9 @@ class User extends Authenticatable
     use HasFactory, Notifiable;
 
     protected $fillable = [
+        'surname',
         'name',
+        'patronymic',
         'email',
         'password',
     ];
@@ -27,11 +30,13 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'role' => UserRoleEnum::class,
         ];
     }
 
-    public function userItems(): HasMany
+    public function items(): BelongsToMany
     {
-        return $this->hasMany(UserItem::class);
+        return $this->belongsToMany(Item::class, 'user_items')
+            ->withPivot(['rating', 'started_at', 'completed_at', 'notes']);
     }
 }

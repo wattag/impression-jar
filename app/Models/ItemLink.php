@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\LinkTypeEnum;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -12,8 +13,14 @@ class ItemLink extends Model
         'type',
         'title',
         'url',
-        'sort_order',
     ];
+
+    protected function casts(): array
+    {
+        return [
+            'type' => LinkTypeEnum::class,
+        ];
+    }
 
     public function item(): BelongsTo
     {

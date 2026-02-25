@@ -4,13 +4,10 @@
 .gitattributes
 
 # Documentation
-README.md
 *.md
 
 # IDE
-.vscode
 .idea
-.phpstorm.meta.php
 *.swp
 *.swo
 *~
@@ -39,7 +36,6 @@ Thumbs.db
 
 # Logs
 *.log
-/storage/logs/*.log
 
 # Testing
 .phpunit.cache

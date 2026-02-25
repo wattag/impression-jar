@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Item extends Model
@@ -12,16 +13,13 @@ class Item extends Model
         'content_type_id',
         'title',
         'description',
-        'image',
         'release_date',
-        'metadata',
     ];
 
     protected function casts(): array
     {
         return [
             'release_date' => 'date',
-            'metadata' => 'array',
         ];
     }
 
@@ -30,13 +28,14 @@ class Item extends Model
         return $this->belongsTo(ContentType::class);
     }
 
-    public function userItems(): HasMany
+    public function users(): BelongsToMany
     {
-        return $this->hasMany(UserItem::class);
+        return $this->belongsToMany(User::class, 'user_items')
+            ->withPivot(['rating', 'started_at', 'completed_at', 'notes']);
     }
 
     public function links(): HasMany
     {
-        return $this->hasMany(ItemLink::class)->orderBy('sort_order');
+        return $this->hasMany(ItemLink::class);
     }
 }
